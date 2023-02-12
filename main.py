@@ -31,7 +31,7 @@ parser.add_argument("--batch_size",
 	help="batch size for training")
 parser.add_argument("--epochs", 
 	type=int,
-	default=20,  
+	default=1,
 	help="training epoches")
 parser.add_argument("--top_k", 
 	type=int, 
