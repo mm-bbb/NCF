@@ -7,6 +7,7 @@ class NCF(nn.Module):
 	def __init__(self, user_num, item_num, factor_num, num_layers,
 					dropout, model, GMF_model=None, MLP_model=None):
 		super(NCF, self).__init__()
+		print("__init__")
 		"""
 		user_num: number of users;
 		item_num: number of items;
@@ -47,6 +48,15 @@ class NCF(nn.Module):
 
 	def _init_weight_(self):
 		""" We leave the weights initialization here. """
+		if self.model == 'MLP':
+		    print("_init_weight_MLP")
+		elif self.model == 'GMF':
+		    print("_init_weight_GMF")
+		elif self.model == 'NeuMF-pre':
+		    print("_init_weight_NeuMF-pre")
+		elif self.model == 'NeuMF-end':
+		    print("_init_weight_NeuMF-end")
+
 		if not self.model == 'NeuMF-pre':
 			nn.init.normal_(self.embed_user_GMF.weight, std=0.01)
 			nn.init.normal_(self.embed_user_MLP.weight, std=0.01)
@@ -82,7 +92,7 @@ class NCF(nn.Module):
 
 			# predict layers
 			predict_weight = torch.cat([
-				self.GMF_model.predict_layer.weight, 
+				self.GMF_model.predict_layer.weight,
 				self.MLP_model.predict_layer.weight], dim=1)
 			precit_bias = self.GMF_model.predict_layer.bias + \
 						self.MLP_model.predict_layer.bias

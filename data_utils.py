@@ -1,4 +1,7 @@
-import numpy as np 
+import os
+import time
+
+import numpy as np
 import pandas as pd 
 import scipy.sparse as sp
 
@@ -9,6 +12,7 @@ import config
 
 def load_all(test_num=100):
 	""" We load all the three file here to save time in each epoch. """
+	start_time = time.time()
 	train_data = pd.read_csv(
 		config.train_rating, 
 		sep='\t', header=None, names=['user', 'item'], 
@@ -34,6 +38,11 @@ def load_all(test_num=100):
 			for i in arr[1:]:
 				test_data.append([u, int(i)])
 			line = fd.readline()
+
+	elapsed_time = time.time() - start_time
+	print("The load_all Func runtime is: " +
+			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
+
 	return train_data, test_data, user_num, item_num, train_mat
 
 
