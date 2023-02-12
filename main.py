@@ -31,7 +31,7 @@ parser.add_argument("--batch_size",
 	help="batch size for training")
 parser.add_argument("--epochs", 
 	type=int,
-	default=1,
+	default=2,
 	help="training epoches")
 parser.add_argument("--top_k", 
 	type=int, 
@@ -79,6 +79,7 @@ train_loader = data.DataLoader(train_dataset,
 test_loader = data.DataLoader(test_dataset,
 		batch_size=args.test_num_ng+1, shuffle=False, num_workers=0)
 
+start_time = time.time()
 ########################### CREATE MODEL #################################
 if config.model == 'NeuMF-pre':
 	assert os.path.exists(config.GMF_model_path), 'lack of GMF model'
@@ -99,6 +100,8 @@ if config.model == 'NeuMF-pre':
 else:
 	optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
+elapsed_time = time.time() - start_time
+print("CREATE MODEL runtime is: " + time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
 # writer = SummaryWriter() # for visualization
 
 ########################### TRAINING #####################################
@@ -128,6 +131,7 @@ for epoch in range(args.epochs):
 	print("The time elapse of epoch {:03d}".format(epoch) + " is: " + 
 			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
 	print("HR: {:.3f}\tNDCG: {:.3f}".format(np.mean(HR), np.mean(NDCG)))
+	print("COUNT: {:07d}".format(count))
 
 	if HR > best_hr:
 		best_hr, best_ndcg, best_epoch = HR, NDCG, epoch
