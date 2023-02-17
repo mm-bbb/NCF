@@ -101,7 +101,7 @@ else:
 	optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
 elapsed_time = time.time() - start_time
-print("CREATE MODEL runtime is: " + time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
+print("0219::CREATE MODEL runtime is: " + time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
 # writer = SummaryWriter() # for visualization
 
 ########################### TRAINING #####################################
@@ -131,7 +131,7 @@ for epoch in range(args.epochs):
 	print("The time elapse of epoch {:03d}".format(epoch) + " is: " + 
 			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
 	print("HR: {:.3f}\tNDCG: {:.3f}".format(np.mean(HR), np.mean(NDCG)))
-	print("COUNT: {:07d}".format(count))
+	print("0219::COUNT: {:07d}".format(count))
 
 	if HR > best_hr:
 		best_hr, best_ndcg, best_epoch = HR, NDCG, epoch

@@ -40,7 +40,7 @@ def load_all(test_num=100):
 			line = fd.readline()
 
 	elapsed_time = time.time() - start_time
-	print("The load_all Func runtime is: " +
+	print("0219::The load_all Func runtime is: " +
 			time.strftime("%H: %M: %S", time.gmtime(elapsed_time)))
 
 	return train_data, test_data, user_num, item_num, train_mat
