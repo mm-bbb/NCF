@@ -31,7 +31,7 @@ parser.add_argument("--batch_size",
 	help="batch size for training")
 parser.add_argument("--epochs", 
 	type=int,
-	default=2,
+	default=1,
 	help="training epoches")
 parser.add_argument("--top_k", 
 	type=int, 
@@ -105,11 +105,13 @@ print("0219::CREATE MODEL runtime is: " + time.strftime("%H: %M: %S", time.gmtim
 # writer = SummaryWriter() # for visualization
 
 ########################### TRAINING #####################################
-count, best_hr = 0, 0
+model_count, count, best_hr = 0, 0, 0
 for epoch in range(args.epochs):
 	model.train() # Enable dropout (if have).
 	start_time = time.time()
 	train_loader.dataset.ng_sample()
+	model_count += 1
+	count=0
 
 	for user, item, label in train_loader:
 		user = user.cuda()
@@ -141,5 +143,6 @@ for epoch in range(args.epochs):
 			torch.save(model, 
 				'{}{}.pth'.format(config.model_path, config.model))
 
+print("0219::MODEL_COUNT: {:07d}".format(model_count))
 print("End. Best epoch {:03d}: HR = {:.3f}, NDCG = {:.3f}".format(
 									best_epoch, best_hr, best_ndcg))

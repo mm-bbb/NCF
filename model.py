@@ -105,18 +105,23 @@ class NCF(nn.Module):
 			embed_user_GMF = self.embed_user_GMF(user)
 			embed_item_GMF = self.embed_item_GMF(item)
 			output_GMF = embed_user_GMF * embed_item_GMF
+			print("0219::forward not self.model == MLP")
 		if not self.model == 'GMF':
 			embed_user_MLP = self.embed_user_MLP(user)
 			embed_item_MLP = self.embed_item_MLP(item)
 			interaction = torch.cat((embed_user_MLP, embed_item_MLP), -1)
 			output_MLP = self.MLP_layers(interaction)
+			print("0219::forward not self.model == GMF")
 
 		if self.model == 'GMF':
 			concat = output_GMF
+			print("0219::forward => self.model == GMF")
 		elif self.model == 'MLP':
 			concat = output_MLP
+			print("0219::forward => self.model == MLP")
 		else:
 			concat = torch.cat((output_GMF, output_MLP), -1)
+			print("0219::forward => else torch.cat")
 
 		prediction = self.predict_layer(concat)
 		return prediction.view(-1)
